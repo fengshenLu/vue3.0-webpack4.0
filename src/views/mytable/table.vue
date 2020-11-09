@@ -15,7 +15,7 @@
                 <p >{{slotProps.lable}}</p><i>{{slotProps.lable === '序号' ? '（Number）' : '（String）'}}</i>
             </template>
             <template  v-slot:col="slotProps1">
-                <span >{{slotProps1.row[slotProps1.columns]}}</span>
+                <input v-model="slotProps1.row[slotProps1.columns]"/>
             </template>
         </tableSlot>
     </div>
