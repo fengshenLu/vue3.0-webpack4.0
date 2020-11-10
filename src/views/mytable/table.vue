@@ -1,7 +1,7 @@
 <template>
     <div class="table"  :style="{'width': width}">
         <div class="tableHeader">
-            <div class="tableHeaders" :style="{'width' : columnWidths}" v-for="labels in label" :key="labels"><slot name="header" >{{labels}}</slot></div>
+            <div class="tableHeaders" :style="{'width' : columnWidths}" v-for="labels in label" :key="labels"><slot class="slotStyle"  name="header" >{{labels}}</slot></div>
         </div>
         <div>
             <draggable v-model="tableData" :disabled="draggableFlag">
@@ -10,12 +10,18 @@
                 </div>
             </draggable>
         </div>
-        <tableSlot :draggableFlag="false" :tableData="tableData.slice(0,2)" :label="label.slice(0,3)" :column="column.slice(0,3)" :width="'400px'">
+        ==================================================================================================================================
+        <tableSlot :draggableFlag="true" :tableData="tableData" :label="label" :column="column" :width="'400px'" @dragEnd="handleDrag">
             <template  v-slot:header="slotProps">
-                <p >{{slotProps.lable}}</p><i>{{slotProps.lable === '序号' ? '（Number）' : '（String）'}}</i>
+                <p >{{slotProps.lable}}</p>
             </template>
-            <template  v-slot:col="slotProps1">
-                <input v-model="slotProps1.row[slotProps1.columns]"/>
+            <template  v-slot:col="slotProps">
+                <el-input v-if="slotProps.columns === 'paramMeans'"  v-model="slotProps.row[slotProps.columns]"></el-input>
+                <el-select v-else-if="slotProps.columns === 'paramUnit'"  v-model="slotProps.row[slotProps.columns]">
+                    <el-option v-for="item in list" :key="item" :value="item" :label="item">
+                    </el-option>
+                </el-select>
+                <span v-else >{{slotProps.row[slotProps.columns]}}</span>
             </template>
         </tableSlot>
     </div>
@@ -32,6 +38,7 @@
         },
         data() {
             return {
+                list: ['ms', 's', 'min', 'h'],
                 draggableFlag: false,
                 tableData: [
                     {
@@ -68,6 +75,14 @@
             columnWidths() {
                 return (1/this.column.length * 100 + '%')
             }
+        },
+        methods:{
+            handleDrag(newIndex,oldIndex){
+                const value = this.tableData
+                value.splice(newIndex, 0, value.splice(oldIndex, 1)[0]);
+                this.tableData = []
+                this.tableData.push( ...value )
+            }
         }
     }
 </script>
@@ -80,8 +95,13 @@
             flex-direction: row;
             flex-wrap: nowrap;
             align-items: center;
+            min-height: 41px;
             .tableHeaders{
                 background-color: #fAAADD;
+                .slotStyle{
+                    padding: 0 10px ;
+                    /*min-height: 41px;*/
+                }
             }
             justify-content: space-around;
         }
@@ -92,7 +112,9 @@
             flex-wrap: nowrap;
             justify-content: space-around;
             align-items: center;
+            min-height: 41px;
             .tableColumns{
+                padding: 0 10px ;
                 /*background-color: gray;*/
             }
         }
