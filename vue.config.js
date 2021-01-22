@@ -5,4 +5,5 @@ module.exports = {
     config = require(`./webpackConfig/${env}/vue.config.js`)
     return  config
   },
+  publicPath: './'
 }
