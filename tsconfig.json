@@ -28,6 +28,7 @@
     ]
   },
   "include": [
+    "./*.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
@@ -35,6 +36,7 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
+    "output.js",
     "node_modules"
   ]
 }
