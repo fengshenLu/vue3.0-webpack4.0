@@ -167,7 +167,53 @@ console.log('2', new Date() - dateStart)
 
 ***2.3 条件判断if-else、switch 换成数组[]***
 
+```
+let k = []
+function a (e) { k.push(e)}
+let len = 100000
+let list = Array(len).fill(a)
+let time1 = new Date()
+for(let i=len; i--;){
+    switch(i%10) {
+    case 0 : a(0); break;
+    case 1 : a(1); break;
+    case 2 : a(2); break;
+    case 3 : a(3); break;
+    case 4 : a(4); break;
+    case 5 : a(5); break;
+    case 6 : a(6); break;
+    case 7 : a(7); break;
+    case 8 : a(8); break;
+    case 9 : a(9); break;
+}}
+console.log('1', new Date() - time1)
+ time1 = new Date()
+for(let i=len - 1; i--;){
+    list[i](i)
+}
+console.log('2', new Date() - time1)
+```
+
 ***2.4 事件委托***
+
+```
+<ul>
+   <li>第1个li</li>
+   <li>第2个li</li>
+   <li>第3个li</li>
+   <li>第4个li</li>
+   <li>第5个li</li>
+   <li>第6个li</li>
+   ...
+   <li>第100个li</li>
+</ul>
+<script>
+//    li的事件委托给父元素ul
+    $('ul').click(function(event){
+        console.log($(event.target).text());
+    });
+ </script>
+```
 
 
 
