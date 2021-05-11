@@ -49,6 +49,10 @@
 
 **2. js常用的一些优化技巧**
 
+> 1. 减少DOM操作
+> 2. js循环优化
+> 3. 
+
 ***2.1 js减少DOM操作***
 
 看下面两段代码：
@@ -82,9 +86,9 @@
 3. 将要修改的文档首先脱离文档流处理(display: none,position：absolute)等方式，最后再插入文档流
 4. 动画效果尽量使用绝对定位，或是限定一个区域减少重绘
 
-***2.2 js循环优化***
+***2.2  js循环优化***
 
-js中原始的for循环和js提供的forEach()、map()、reduce()、for...of等遍历API性能上相差不多，除了for...in，因为for...in是会遍历原型链属性，导致性能在某些应用场景是比较差的
+****js中原始的for循环和js提供的forEach()、map()、reduce()、for...of等遍历API性能上相差不多，除了for...in，因为for...in是会遍历原型链属性，导致性能在某些应用场景是比较差的****
 
 ```
 let obj = Object.assign({}, {'a':123, 'b':21321, 'c':12312})
@@ -98,97 +102,72 @@ for(let key in obj){
 // say
 ```
 
-1. **虽然for系列写法比较复杂，但是for系列的循环是可以通过break来中断，在一定应用场景还是有性能上的优化空间**。下面是个简单的例子
+****2.2.1 虽然for系列写法比较复杂，但是for系列的循环是可以通过break来中断，在一定应用场景还是有性能上的优化空间。下面是个简单的例子****
 
-   ```
-     // 编写方法，实现冒泡
-       let arr = Array(10000).fill(1).map(item => item = parseInt(Math.random()*100));
-       let dataOne = JSON.parse(JSON.stringify(arr))
-           dataTwo = JSON.parse(JSON.stringify(arr))
-       // 外层循环，控制趟数，每一次找到一个最大值
-       // let body = document.getElementsByTagName('body')[0].innerText
-       let dateStart = new Date()
-       for (let i = 0, len = dataOne.length; i < len - 1; i++) {
-           // 内层循环,控制比较的次数，并且判断两个数的大小
-           // body.innerText = i + Math.random()
-           for (let j = 0, lenj = dataOne.length - 1 - i; j < lenj ; j++) {
-               // 白话解释：如果前面的数大，放到后面(当然是从小到大的冒泡排序)
-               if (dataOne[j] > dataOne[j + 1]) {
-                   let temp = dataOne[j];
-                   dataOne[j] = dataOne[j + 1];
-                   dataOne[j + 1] = temp;
-               }
-           }
-       }
-       console.log('1', new Date() - dateStart )
-       dateStart = new Date()
-       // let state = 0 // 涉及一个作用域的优化问题可以注意一下区别
-       for (let i = 0, len = dataTwo.length; i < len - 1; i++) {
-           // body.innerText = i + Math.random()
-           let state = 0 // 加入状态
-           for (let j = 0, lenj = dataTwo.length - 1 - i; j < lenj ; j++) {
-               if (dataTwo[j] > dataTwo[j + 1]) {
-                   state = 1
-                   let temp = dataTwo[j];
-                   dataTwo[j] = dataTwo[j + 1];
-                   dataTwo[j + 1] = temp;
-               }
-           }
-           if(!state) break
-       }
-      console.log('2', new Date() - dateStart)
-      // 1 201
-      // 2 197
-   ```
-
-   
-
-2. **减少循环体操作并缓存对象**
-
-   ```
-   // 测试环境为空页面， 开发者工具测试结果一次性，没取多次跑代码的时长平均值，结果是纯JS代码
-   let list = Array(10000).fill(6)
-   let dateStart = new Date()
-   for(let i = 0;i < list.length; i++){
-       document.getElementsByTagName('body')[0].innerText = list[i]
-   }
-   console.log('1', new Date() - dateStart) 
-   dateStart = new Date()
-   let body = document.getElementsByTagName('body')[0] // 缓存变量，不用每次循环遍历获取元素
-   for(let i = 0,len=list.length;i < len; i++){ // 缓存数组length =》 len ，使用 i = list.length ; i--,也是可以优化的
-       body.innerText = list[i] + i
-   }
+```
+  // 编写方法，实现冒泡
+    let arr = Array(10000).fill(1).map(item => item = parseInt(Math.random()*100));
+    let dataOne = JSON.parse(JSON.stringify(arr))
+        dataTwo = JSON.parse(JSON.stringify(arr))
+    // 外层循环，控制趟数，每一次找到一个最大值
+    // let body = document.getElementsByTagName('body')[0].innerText
+    let dateStart = new Date()
+    for (let i = 0, len = dataOne.length; i < len - 1; i++) {
+        // 内层循环,控制比较的次数，并且判断两个数的大小
+        // body.innerText = i + Math.random()
+        for (let j = 0, lenj = dataOne.length - 1 - i; j < lenj ; j++) {
+            // 白话解释：如果前面的数大，放到后面(当然是从小到大的冒泡排序)
+            if (dataOne[j] > dataOne[j + 1]) {
+                let temp = dataOne[j];
+                dataOne[j] = dataOne[j + 1];
+                dataOne[j + 1] = temp;
+            }
+        }
+    }
+    console.log('1', new Date() - dateStart )
+    dateStart = new Date()
+    // let state = 0 // 涉及一个作用域的优化问题可以注意一下区别
+    for (let i = 0, len = dataTwo.length; i < len - 1; i++) {
+        // body.innerText = i + Math.random()
+        let state = 0 // 加入状态
+        for (let j = 0, lenj = dataTwo.length - 1 - i; j < lenj ; j++) {
+            if (dataTwo[j] > dataTwo[j + 1]) {
+                state = 1
+                let temp = dataTwo[j];
+                dataTwo[j] = dataTwo[j + 1];
+                dataTwo[j + 1] = temp;
+            }
+        }
+        if(!state) break
+    }
    console.log('2', new Date() - dateStart)
-   // 1 31 ms 这是一次性的结果
-   // 2 15 ms 这是一次性的结果
-   ```
+   // 1 201
+   // 2 197
+```
 
-3. 条件判断if-else、switch 换成数组[]
+****2.2.2 减少循环体操作并缓存对象，也适用于函数体****
 
 ```
-let items = ['a','b','c','d','e','f','g','h','i','j','k','l'];
-　　　　　　let iterations = Math.floor(items.length / 8),
-　　　　　　　　　　　　startAt = items.length % 8,
-　　　　　　　　　　　　　   i = 0; // 一次性写入
-　　　　　　function process(v){
-　　　　　　　　console.log(v);
-　　　　　　}
-　　　　　　do {
-　　　　　　　　switch(startAt){
-　　　　　　　　　　case 0: process(items[i++]);
-　　　　　　　　　　case 7: process(items[i++]);
-　　　　　　　　　　case 6: process(items[i++]);
-　　　　　　　　　　case 5: process(items[i++]);
-　　　　　　　　　　case 4: process(items[i++]);
-　　　　　　　　　　case 3: process(items[i++]);
-　　　　　　　　　　case 2: process(items[i++]);
-　　　　　　　　　　case 1: process(items[i++]);
-　　　　　　　　　　}
-　　　　　　　　　　startAt = 0;
-　　　　　　　} while (iterations--);
+// 测试环境为空页面， 开发者工具测试结果一次性，没取多次跑代码的时长平均值，结果是纯JS代码
+let list = Array(10000).fill(6)
+let dateStart = new Date()
+for(let i = 0;i < list.length; i++){
+    document.getElementsByTagName('body')[0].innerText = list[i]
+}
+console.log('1', new Date() - dateStart) 
+dateStart = new Date()
+let body = document.getElementsByTagName('body')[0] // 缓存变量，不用每次循环遍历获取元素
+for(let i = 0,len=list.length;i < len; i++){ // 缓存数组length =》 len ，使用 i = list.length ; i--,也是可以优化的
+    body.innerText = list[i] + i
+}
+console.log('2', new Date() - dateStart)
+// 1 31 ms 这是一次性的结果
+// 2 15 ms 这是一次性的结果
 ```
-4. 事件委托
 
+***2.3 条件判断if-else、switch 换成数组[]***
+
+***2.4 事件委托***
 
 
 
