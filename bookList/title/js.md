@@ -12,7 +12,6 @@
 >
 > 垃圾回收算法在执行前，需要将应用逻辑暂停，执行完垃圾回收后再执行应用逻辑，这种行为称为 「**全停顿**」（`Stop The World`）
 >
-> 具体V8垃圾回收原理不在这详细说明了，可查看
 
 下面是实际开发中遇到的一个实例：
 
@@ -51,7 +50,8 @@
 
 > 1. 减少DOM操作
 > 2. js循环优化
-> 3. 
+> 3. 条件判断if-else、switch 换成数组[]
+> 4. 事件委托
 
 ***2.1 js减少DOM操作***
 
@@ -102,47 +102,38 @@ for(let key in obj){
 // say
 ```
 
-****2.2.1 虽然for系列写法比较复杂，但是for系列的循环是可以通过break来中断，在一定应用场景还是有性能上的优化空间。下面是个简单的例子****
+****2.2.1 虽然for系列写法比较复杂，但是for系列的循环是可以通过break、continue，在一定应用场景还是有性能上的优化空间****
 
 ```
-  // 编写方法，实现冒泡
-    let arr = Array(10000).fill(1).map(item => item = parseInt(Math.random()*100));
-    let dataOne = JSON.parse(JSON.stringify(arr))
-        dataTwo = JSON.parse(JSON.stringify(arr))
-    // 外层循环，控制趟数，每一次找到一个最大值
-    // let body = document.getElementsByTagName('body')[0].innerText
-    let dateStart = new Date()
-    for (let i = 0, len = dataOne.length; i < len - 1; i++) {
-        // 内层循环,控制比较的次数，并且判断两个数的大小
-        // body.innerText = i + Math.random()
-        for (let j = 0, lenj = dataOne.length - 1 - i; j < lenj ; j++) {
-            // 白话解释：如果前面的数大，放到后面(当然是从小到大的冒泡排序)
-            if (dataOne[j] > dataOne[j + 1]) {
-                let temp = dataOne[j];
-                dataOne[j] = dataOne[j + 1];
-                dataOne[j + 1] = temp;
-            }
-        }
-    }
-    console.log('1', new Date() - dateStart )
+let list = Array(10000).fill(6),
+    K = 0 ,
+    testList = Array(1000).map(item => Math.random()*100),
     dateStart = new Date()
-    // let state = 0 // 涉及一个作用域的优化问题可以注意一下区别
-    for (let i = 0, len = dataTwo.length; i < len - 1; i++) {
-        // body.innerText = i + Math.random()
-        let state = 0 // 加入状态
-        for (let j = 0, lenj = dataTwo.length - 1 - i; j < lenj ; j++) {
-            if (dataTwo[j] > dataTwo[j + 1]) {
-                state = 1
-                let temp = dataTwo[j];
-                dataTwo[j] = dataTwo[j + 1];
-                dataTwo[j + 1] = temp;
-            }
-        }
-        if(!state) break
+for(let i = list.length;i--;){
+    if(i === 5000) {  // 某个条件下停止
+         k = i
+         break
+    } else {
+        testList.sort()
     }
-   console.log('2', new Date() - dateStart)
-   // 1 201
-   // 2 197
+}
+console.log('1', new Date() - dateStart) 
+k
+
+let list = Array(10000).fill(6),
+    K = 0 ,
+    testList = Array(1000).map(item => Math.random()*100),
+    dateStart = new Date()
+for(let i = list.length;i--;){
+    if(i <=5000 && i>=1000) { 
+         k = i
+//         continue
+    } 
+    testList.sort() 
+    
+}
+console.log('1', new Date() - dateStart) 
+k
 ```
 
 ****2.2.2 减少循环体操作并缓存对象，也适用于函数体****
@@ -157,7 +148,7 @@ for(let i = 0;i < list.length; i++){
 console.log('1', new Date() - dateStart) 
 dateStart = new Date()
 let body = document.getElementsByTagName('body')[0] // 缓存变量，不用每次循环遍历获取元素
-for(let i = 0,len=list.length;i < len; i++){ // 缓存数组length =》 len ，使用 i = list.length ; i--,也是可以优化的
+for(let i = 0,len=list.length;i < len; i++){ // 缓存数组length =》 len ，使用 i = list.length ; i--;,也是可以优化的
     body.innerText = list[i] + i
 }
 console.log('2', new Date() - dateStart)
@@ -165,14 +156,49 @@ console.log('2', new Date() - dateStart)
 // 2 15 ms 这是一次性的结果
 ```
 
-***2.3 条件判断if-else、switch 换成数组[]***
+***2.3 条件判断大量if-else、switch 换成数组[]***
 
 ```
+// 简单使用10个条件判断+for来模拟一下，严格意义上是不准确的
 let k = []
 function a (e) { k.push(e)}
 let len = 100000
 let list = Array(len).fill(a)
 let time1 = new Date()
+for(let i=len; i--;){
+let b = i%10
+if(b ===0){
+    a(0)
+}
+else if (b===1){
+    a(1)
+}
+else if (b===2){
+    a(2)
+}
+else if (b===3){
+    a(3)
+}
+else if (b===4){
+    a(4)
+}
+else if (b===5){
+    a(5)
+}
+else if (b===6){
+    a(6)
+}
+else if (b===7){
+    a(7)
+}
+else if (b===8){
+    a(8)
+}
+else if (b===9){
+    a(9)
+}}
+console.log('0', new Date() - time1)
+ time1 = new Date()
 for(let i=len; i--;){
     switch(i%10) {
     case 0 : a(0); break;
@@ -188,8 +214,43 @@ for(let i=len; i--;){
 }}
 console.log('1', new Date() - time1)
  time1 = new Date()
-for(let i=len - 1; i--;){
-    list[i](i)
+for(let i=len; i--;){
+    list[i%10](i%10)
+}
+console.log('2', new Date() - time1)
+    a(5)
+}
+else if (b===6){
+    a(6)
+}
+else if (b===7){
+    a(7)
+}
+else if (b===8){
+    a(8)
+}
+else if (b===9){
+    a(9)
+}}
+console.log('0', new Date() - time1)
+ time1 = new Date()
+for(let i=len; i--;){
+    switch(i%10) {
+    case 0 : a(0); break;
+    case 1 : a(1); break;
+    case 2 : a(2); break;
+    case 3 : a(3); break;
+    case 4 : a(4); break;
+    case 5 : a(5); break;
+    case 6 : a(6); break;
+    case 7 : a(7); break;
+    case 8 : a(8); break;
+    case 9 : a(9); break;
+}}
+console.log('1', new Date() - time1)
+ time1 = new Date()
+for(let i=len; i--;){
+    list[i%10](i%10)
 }
 console.log('2', new Date() - time1)
 ```

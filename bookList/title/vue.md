@@ -31,6 +31,8 @@ vue的对网页性能方面涉及的比较多，这里不全部列举了，就�
 > ```
 >
 > 当使用函数式组件时，该引用将会是 HTMLElement，因为他们是无状态的也是无实例的。
+>
+> 因为函数式组件只是函数，所以渲染开销也低很多
 
 **vue函数式组件应用**
 
@@ -58,7 +60,7 @@ export default {
         'docDataSource',
         'sectionBak'
     ],
-    render(h, context) {
+    render(h, context) { // render 渲染函数 
         let contentArr = [];
         let spanArr = [];
         let filedArr = [];
@@ -99,10 +101,7 @@ export default {
 <video src="../../static/afterFunctional.mp4" controls="controls" width="100%" height="300">您的浏览器不支持播放该视频！</video>
 
 可以看出普通vue组件在渲染时速度基本差不多，但其实性能差了很多，**页面直接崩溃无法操作**，
-其实在函数式组件之前做了也做了一些优化才保证页面快速出来：
-
-主要是解决**重绘**引发的性能问题：
+其实在函数式组件之前做了也做了一些优化才保证页面快速出来，主要是解决**重绘**引发的性能问题：
 
 1.  数据获取后一次性渲染
-2. 轮询找到渲染大致结束标志，然后再分栏处理
-
+2.  轮询找到渲染大致结束标志，然后再分栏处理

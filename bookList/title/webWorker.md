@@ -1,6 +1,6 @@
 # web Worker
 
-​    JavaScript 语言采用的是单线程模型，依靠node.js事件循环机制来处理 处理非阻塞 I/O 操作，具体事件循环的参考资料可以看[node.js官网](https://nodejs.org/zh-cn/docs/guides/event-loop-timers-and-nexttick/#what-is-the-event-loop)或是一些相关的书籍、文档。[Web Worker](https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API/Using_web_workers)为Web内容在后台线程中运行脚本提供了一种简单的方法。线程可以执行任务而不干扰用户界面。一旦创建， 一个worker 可以将消息发送到创建它的JavaScript代码, 通过将消息发布到该代码指定的事件处理程序（反之亦然）。
+​    JavaScript 语言采用的是单线程模型，依靠node.js**事件循环**机制来处理 处理非阻塞 I/O 操作，具体**事件循环**的参考资料可以看[node.js官网](https://nodejs.org/zh-cn/docs/guides/event-loop-timers-and-nexttick/#what-is-the-event-loop)或是一些相关的书籍、文档。[Web Worker](https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API/Using_web_workers)为Web内容在后台线程中运行脚本提供了一种简单的方法。线程可以执行任务而不干扰用户界面。一旦创建， 一个worker 可以将消息发送到创建它的JavaScript代码, 通过将消息发布到该代码指定的事件处理程序（反之亦然）。
 
 下面的介绍，先以一个实例看看web Worker的特点：
 
