@@ -1,0 +1,498 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>javascript · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="webWorker.html" />
+    
+    
+    <link rel="prev" href="../../" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    前端性能浅析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2" data-path="js.html">
+            
+                <a href="js.html">
+            
+                    
+                    javascript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="webWorker.html">
+            
+                <a href="webWorker.html">
+            
+                    
+                    webWorker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="vue.html">
+            
+                <a href="vue.html">
+            
+                    
+                    vue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="end.html">
+            
+                <a href="end.html">
+            
+                    
+                    总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >javascript</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="js&#x6027;&#x80FD;&#x5206;&#x6790;">js&#x6027;&#x80FD;&#x5206;&#x6790;</h1>
+<p><strong>1.&#x5783;&#x573E;&#x56DE;&#x6536;&#x673A;&#x5236;&#x5F15;&#x53D1;&#x7684;&#x9879;&#x76EE;&#x5361;&#x987F;&#x95EE;&#x9898;</strong></p>
+<blockquote>
+<p>64&#x4F4D;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;1.4G&#xFF0C;32&#x4F4D;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;0.7G</p>
+</blockquote>
+<p>  V8&#x4E4B;&#x6240;&#x4EE5;&#x9650;&#x5236;&#x4E86;&#x5185;&#x5B58;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x8868;&#x9762;&#x4E0A;&#x7684;&#x539F;&#x56E0;&#x662F;V8&#x6700;&#x521D;&#x662F;&#x4F5C;&#x4E3A;&#x6D4F;&#x89C8;&#x5668;&#x7684;JavaScript&#x5F15;&#x64CE;&#x800C;&#x8BBE;&#x8BA1;&#xFF0C;&#x4E0D;&#x592A;&#x53EF;&#x80FD;&#x9047;&#x5230;&#x5927;&#x91CF;&#x5185;&#x5B58;&#x7684;&#x573A;&#x666F;&#xFF0C;&#x800C;&#x6DF1;&#x5C42;&#x6B21;&#x7684;&#x539F;&#x56E0;&#x5219;&#x662F;&#x7531;&#x4E8E;V8&#x7684;&#x5783;&#x573E;&#x56DE;&#x6536;&#x673A;&#x5236;&#x7684;&#x9650;&#x5236;&#x3002;</p>
+<blockquote>
+<p>&#x5B98;&#x65B9;&#x8BF4;&#x6CD5;&#xFF0C;&#x5BF9;&#x4E8E;1.5G&#x7684;&#x5783;&#x573E;&#x56DE;&#x6536;&#x5806;&#x5185;&#x5B58;&#xFF0C;V8&#x505A;&#x4E00;&#x6B21;&#x5C0F;&#x7684;&#x5783;&#x573E;&#x56DE;&#x6536;&#x9700;&#x8981;50ms&#xFF0C;&#x505A;&#x4E00;&#x6B21;&#x975E;&#x589E;&#x91CF;&#x5F0F;&#x7684;&#x5783;&#x573E;&#x56DE;&#x6536;&#x5728;1s&#x4EE5;&#x4E0A;&#xFF08;&#x5C0F;&#x5783;&#x573E;&#x56DE;&#x6536;&#x548C;&#x975E;&#x589E;&#x91CF;&#x90FD;&#x662F;&#x5783;&#x573E;&#x56DE;&#x6536;&#x7B56;&#x7565;&#xFF09;&#x3002;&#x8FD9;&#x4E9B;&#x662F;&#x5783;&#x573E;&#x56DE;&#x6536;&#x5F15;&#x8D77;js&#x6267;&#x884C;&#x6682;&#x505C;&#x7684;&#x65F6;&#x95F4;&#x3002;&#x5728;&#x8FD9;&#x6837;&#x7684;&#x65F6;&#x95F4;&#x82B1;&#x9500;&#x4E0B;&#xFF0C;&#x524D;&#x540E;&#x7AEF;&#x90FD;&#x662F;&#x6CA1;&#x6CD5;&#x63A5;&#x53D7;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x76F4;&#x63A5;&#x9650;&#x5236;&#x5806;&#x5185;&#x5B58;&#x662F;&#x4E00;&#x4E2A;&#x5408;&#x7406;&#x7684;&#x9009;&#x62E9;&#x3002;</p>
+<p>&#x5783;&#x573E;&#x56DE;&#x6536;&#x7B97;&#x6CD5;&#x5728;&#x6267;&#x884C;&#x524D;&#xFF0C;&#x9700;&#x8981;&#x5C06;&#x5E94;&#x7528;&#x903B;&#x8F91;&#x6682;&#x505C;&#xFF0C;&#x6267;&#x884C;&#x5B8C;&#x5783;&#x573E;&#x56DE;&#x6536;&#x540E;&#x518D;&#x6267;&#x884C;&#x5E94;&#x7528;&#x903B;&#x8F91;&#xFF0C;&#x8FD9;&#x79CD;&#x884C;&#x4E3A;&#x79F0;&#x4E3A; &#x300C;<strong>&#x5168;&#x505C;&#x987F;</strong>&#x300D;&#xFF08;<code>Stop The World</code>&#xFF09;</p>
+</blockquote>
+<p>&#x4E0B;&#x9762;&#x662F;&#x5B9E;&#x9645;&#x5F00;&#x53D1;&#x4E2D;&#x9047;&#x5230;&#x7684;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#xFF1A;</p>
+<p>&#x8BBE;&#x8BA1;&#x8BF4;&#x660E;&#x5DE5;&#x5177;&#x4E2D;&#x5185;&#x5B58;&#x5360;&#x7528;&#x8FC7;&#x5927;&#xFF0C;&#x5783;&#x573E;&#x56DE;&#x6536;&#x673A;&#x5236;&#x5F15;&#x53D1;&#x7684;&#x9875;&#x9762;&#x5361;&#x987F;&#x95EE;&#x9898;&#xFF1A;</p>
+<video src="../../static/beforeClear.mp4" controls="controls" width="100%" height="300">&#x60A8;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x4E0D;&#x652F;&#x6301;&#x64AD;&#x653E;&#x8BE5;&#x89C6;&#x9891;&#xFF01;</video>
+
+<p>&#x4E0A;&#x8FF0;&#x95EE;&#x9898;&#x8FD8;&#x5B58;&#x5728;&#x4E8E;&#x8BBE;&#x8BA1;&#x8BF4;&#x660E;&#x5DE5;&#x5177;&#x4E2D;&#x6210;&#x679C;&#x8F93;&#x51FA;&#x7B49;&#x5176;&#x5B83;&#x754C;&#x9762;&#xFF0C;&#x53EF;&#x4EE5;&#x4ECE;&#x7F51;&#x9875;&#x5F00;&#x53D1;&#x8005;&#x5DE5;&#x5177;&#x7684;performance&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;&#x770B;&#x51FA;&#xFF0C;JS&#x88AB;&#x5361;&#x987F;&#x4E5F;&#x5C31;&#x662F;&#x9875;&#x9762;&#x76EE;&#x524D;&#x5904;&#x4E8E;&#x5168;&#x505C;&#x987F;&#x72B6;&#x6001;&#xFF0C;minor GC&#x5360;&#x7528;&#x8F83;&#x5927;&#x3002;</p>
+<p>&#x5728;&#x8BBE;&#x8BA1;&#x8BF4;&#x660E;&#x9875;&#x9762;&#x5207;&#x6362;&#x9879;&#x76EE;&#x65F6;&#x4E3B;&#x52A8;&#x6E05;&#x7406;&#x5185;&#x5B58;</p>
+<pre><code>        // &#x624B;&#x52A8;&#x6E05;&#x7406;&#x5185;&#x5B58;&#xFF0C;&#x8FD9;&#x91CC;&#x662F;&#x5E94;&#x7528;&#x540C;&#x9875;&#x9762;&#x5207;&#x6362;&#xFF0C;&#x8981;&#x662F;&#x4E0D;&#x7528;&#x9875;&#x9762;&#x5207;&#x6362;&#x53EF;&#x76F4;&#x63A5;&#x5168;&#x90E8;&#x6E05;&#x7A7A;
+        destroyData() {
+            Object.keys(this.$data).forEach(item =&gt; { // &#x8BFB;&#x53D6;vue&#x5B9E;&#x4F8B;&#x4E2D;&#x6240;&#x6709;&#x5168;&#x5C40;&#x53D8;&#x91CF;
+                if (typeof this[item] === &apos;object&apos;) { 
+                 // &#x90E8;&#x5206;&#x914D;&#x7F6E;&#x6570;&#x636E;&#x9700;&#x8981;&#x4FDD;&#x7559;
+                    if ([&apos;projParams&apos;, &apos;sortParams&apos;, &apos;toProjParams&apos;, &apos;designDocData&apos;].indexOf(item) === -1) { 
+                   // &#x6309;&#x7C7B;&#x578B;&#x4E3B;&#x52A8;&#x6E05;&#x7406;&#x5185;&#x5B58;&#xFF0C;&#x4EE5;&#x514D;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x53D1;&#x751F;&#x53D8;&#x5316;
+                        if (Array.isArray(this[item])) { 
+                            this[item] = []
+                        } else {
+                            this[item] = {}
+                        }
+                    }
+                }
+            })
+        },
+</code></pre><p>&#x5728;&#x5207;&#x6362;&#x9879;&#x76EE;&#x540E;&#x4E3B;&#x52A8;&#x6E05;&#x7406;&#x5185;&#x5B58;&#x540E;&#x9875;&#x9762;&#x6027;&#x80FD;&#x57FA;&#x672C;&#x80FD;&#x7EF4;&#x6301;&#x4E0D;&#x5361;&#x6B7B;&#x7684;&#x60C5;&#x51B5;&#xFF1A;</p>
+<video src="../../static/afterClear.mp4" controls="controls" width="100%" height="300">&#x60A8;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x4E0D;&#x652F;&#x6301;&#x64AD;&#x653E;&#x8BE5;&#x89C6;&#x9891;&#xFF01;</video>
+
+<p><strong>2. js&#x5E38;&#x7528;&#x7684;&#x4E00;&#x4E9B;&#x4F18;&#x5316;&#x6280;&#x5DE7;</strong></p>
+<blockquote>
+<ol>
+<li>&#x51CF;&#x5C11;DOM&#x64CD;&#x4F5C;</li>
+<li>js&#x5FAA;&#x73AF;&#x4F18;&#x5316;</li>
+<li>&#x6761;&#x4EF6;&#x5224;&#x65AD;if-else&#x3001;switch &#x6362;&#x6210;&#x6570;&#x7EC4;[]</li>
+<li>&#x4E8B;&#x4EF6;&#x59D4;&#x6258;</li>
+</ol>
+</blockquote>
+<p><strong><em>2.1 js&#x51CF;&#x5C11;DOM&#x64CD;&#x4F5C;</em></strong></p>
+<p>&#x770B;&#x4E0B;&#x9762;&#x4E24;&#x6BB5;&#x4EE3;&#x7801;&#xFF1A;</p>
+<pre><code>1. // &#x5FAA;&#x73AF;&#x5411;DOM&#x6DFB;&#x52A0;&#x5143;&#x7D20;
+    let body = document.getElementsByTagName(&apos;body&apos;)[0],
+            item = null
+      for (let i = 0; i &lt;= 5000; i++) {
+           item = document.createElement(&quot;div&quot;);
+           body.appendChild(item);
+           item.appendChild(document.createTextNode(&quot; Item&quot; + i));
+      }
+2. // &#x751F;&#x6210;&#x5143;&#x7D20;&#x540E;&#xFF0C;&#x4E00;&#x6B21;&#x6027;&#x63D2;&#x5165;DOM
+      let body = document.getElementsByTagName(&apos;body&apos;)[0],
+          item = null
+          fragment = document.createDocumentFragment()
+      for (let i = 0; i &lt;= 5000; i++) {
+           item = document.createElement(&quot;div&quot;);
+           fragment.appendChild(item);
+           item.appendChild(document.createTextNode(&quot; Item&quot; + i));
+      }
+      body.appendChild(fragment);
+</code></pre><p>&#x901A;&#x8FC7;JS&#x811A;&#x672C;&#x5BF9;DOM&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#xFF0C;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x4F18;&#x5316;&#x7684;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<ol>
+<li>&#x5C3D;&#x91CF;&#x51CF;&#x5C11;&#x64CD;&#x4F5C;&#x6B21;&#x6570;&#xFF0C;&#x7C7B;&#x4F3C;&#x8FD8;&#x6709;&#xFF1A;element.style.color&#x3001;element.style.width&#x7B49;&#x53EF;&#x4EE5;&#x96C6;&#x6210;&#x4E3A;element.setAttribute(<code>&quot;style&quot;</code>,<code>&quot;top:20px;left:20px;color:red;&quot;</code>)&#x4E00;&#x6B21;&#x6027;&#x64CD;&#x4F5C;</li>
+<li>&#x6587;&#x6863;&#x788E;&#x7247;&#x65B9;&#x5F0F; document.createDocumentFragment()&#xFF0C;reateDocumentFragment()&#x65B9;&#x6CD5;&#xFF0C;&#x662F;&#x7528;&#x6765;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x865A;&#x62DF;&#x7684;&#x8282;&#x70B9;&#x5BF9;&#x8C61;&#xFF0C;&#x6216;&#x8005;&#x8BF4;&#xFF0C;&#x662F;&#x7528;&#x6765;&#x521B;&#x5EFA;&#x6587;&#x6863;&#x788E;&#x7247;&#x8282;&#x70B9;&#x3002;&#x5B83;&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x5404;&#x79CD;&#x7C7B;&#x578B;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x5728;&#x521B;&#x5EFA;&#x4E4B;&#x521D;&#x662F;&#x7A7A;&#x7684;&#x3002;</li>
+<li>&#x5C06;&#x8981;&#x4FEE;&#x6539;&#x7684;&#x6587;&#x6863;&#x9996;&#x5148;&#x8131;&#x79BB;&#x6587;&#x6863;&#x6D41;&#x5904;&#x7406;(display: none,position&#xFF1A;absolute)&#x7B49;&#x65B9;&#x5F0F;&#xFF0C;&#x6700;&#x540E;&#x518D;&#x63D2;&#x5165;&#x6587;&#x6863;&#x6D41;</li>
+<li>&#x52A8;&#x753B;&#x6548;&#x679C;&#x5C3D;&#x91CF;&#x4F7F;&#x7528;&#x7EDD;&#x5BF9;&#x5B9A;&#x4F4D;&#xFF0C;&#x6216;&#x662F;&#x9650;&#x5B9A;&#x4E00;&#x4E2A;&#x533A;&#x57DF;&#x51CF;&#x5C11;&#x91CD;&#x7ED8;</li>
+</ol>
+<p><strong><em>2.2  js&#x5FAA;&#x73AF;&#x4F18;&#x5316;</em></strong></p>
+<p><strong><strong>js&#x4E2D;&#x539F;&#x59CB;&#x7684;for&#x5FAA;&#x73AF;&#x548C;js&#x63D0;&#x4F9B;&#x7684;forEach()&#x3001;map()&#x3001;reduce()&#x3001;for...of&#x7B49;&#x904D;&#x5386;API&#x6027;&#x80FD;&#x4E0A;&#x76F8;&#x5DEE;&#x4E0D;&#x591A;&#xFF0C;&#x9664;&#x4E86;for...in&#xFF0C;&#x56E0;&#x4E3A;for...in&#x662F;&#x4F1A;&#x904D;&#x5386;&#x539F;&#x578B;&#x94FE;&#x5C5E;&#x6027;&#xFF0C;&#x5BFC;&#x81F4;&#x6027;&#x80FD;&#x5728;&#x67D0;&#x4E9B;&#x5E94;&#x7528;&#x573A;&#x666F;&#x662F;&#x6BD4;&#x8F83;&#x5DEE;&#x7684;</strong></strong></p>
+<pre><code>let obj = Object.assign({}, {&apos;a&apos;:123, &apos;b&apos;:21321, &apos;c&apos;:12312})
+Object.prototype.say = 000
+for(let key in obj){
+    console.log(key)
+}
+// a
+// b
+// c
+// say
+</code></pre><p><strong><strong>2.2.1 &#x867D;&#x7136;for&#x7CFB;&#x5217;&#x5199;&#x6CD5;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#xFF0C;&#x4F46;&#x662F;for&#x7CFB;&#x5217;&#x7684;&#x5FAA;&#x73AF;&#x662F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;break&#x3001;continue&#xFF0C;&#x5728;&#x4E00;&#x5B9A;&#x5E94;&#x7528;&#x573A;&#x666F;&#x8FD8;&#x662F;&#x6709;&#x6027;&#x80FD;&#x4E0A;&#x7684;&#x4F18;&#x5316;&#x7A7A;&#x95F4;</strong></strong></p>
+<pre><code>let list = Array(10000).fill(6),
+    K = 0 ,
+    testList = Array(1000).map(item =&gt; Math.random()*100),
+    dateStart = new Date()
+for(let i = list.length;i--;){
+    if(i === 5000) {  // &#x67D0;&#x4E2A;&#x6761;&#x4EF6;&#x4E0B;&#x505C;&#x6B62;
+         k = i
+         break
+    } else {
+        testList.sort()
+    }
+}
+console.log(&apos;1&apos;, new Date() - dateStart) 
+k
+
+let list = Array(10000).fill(6),
+    K = 0 ,
+    testList = Array(1000).map(item =&gt; Math.random()*100),
+    dateStart = new Date()
+for(let i = list.length;i--;){
+    if(i &lt;=5000 &amp;&amp; i&gt;=1000) { 
+         k = i
+//         continue
+    } 
+    testList.sort() 
+
+}
+console.log(&apos;1&apos;, new Date() - dateStart) 
+k
+</code></pre><p><strong><strong>2.2.2 &#x51CF;&#x5C11;&#x5FAA;&#x73AF;&#x4F53;&#x64CD;&#x4F5C;&#x5E76;&#x7F13;&#x5B58;&#x5BF9;&#x8C61;&#xFF0C;&#x4E5F;&#x9002;&#x7528;&#x4E8E;&#x51FD;&#x6570;&#x4F53;</strong></strong></p>
+<pre><code>// &#x6D4B;&#x8BD5;&#x73AF;&#x5883;&#x4E3A;&#x7A7A;&#x9875;&#x9762;&#xFF0C; &#x5F00;&#x53D1;&#x8005;&#x5DE5;&#x5177;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#x4E00;&#x6B21;&#x6027;&#xFF0C;&#x6CA1;&#x53D6;&#x591A;&#x6B21;&#x8DD1;&#x4EE3;&#x7801;&#x7684;&#x65F6;&#x957F;&#x5E73;&#x5747;&#x503C;&#xFF0C;&#x7ED3;&#x679C;&#x662F;&#x7EAF;JS&#x4EE3;&#x7801;
+let list = Array(10000).fill(6)
+let dateStart = new Date()
+for(let i = 0;i &lt; list.length; i++){
+    document.getElementsByTagName(&apos;body&apos;)[0].innerText = list[i]
+}
+console.log(&apos;1&apos;, new Date() - dateStart) 
+dateStart = new Date()
+let body = document.getElementsByTagName(&apos;body&apos;)[0] // &#x7F13;&#x5B58;&#x53D8;&#x91CF;&#xFF0C;&#x4E0D;&#x7528;&#x6BCF;&#x6B21;&#x5FAA;&#x73AF;&#x904D;&#x5386;&#x83B7;&#x53D6;&#x5143;&#x7D20;
+for(let i = 0,len=list.length;i &lt; len; i++){ // &#x7F13;&#x5B58;&#x6570;&#x7EC4;length =&#x300B; len &#xFF0C;&#x4F7F;&#x7528; i = list.length ; i--;,&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x4F18;&#x5316;&#x7684;
+    body.innerText = list[i] + i
+}
+console.log(&apos;2&apos;, new Date() - dateStart)
+// 1 31 ms &#x8FD9;&#x662F;&#x4E00;&#x6B21;&#x6027;&#x7684;&#x7ED3;&#x679C;
+// 2 15 ms &#x8FD9;&#x662F;&#x4E00;&#x6B21;&#x6027;&#x7684;&#x7ED3;&#x679C;
+</code></pre><p><strong><em>2.3 &#x6761;&#x4EF6;&#x5224;&#x65AD;&#x5927;&#x91CF;if-else&#x3001;switch &#x6362;&#x6210;&#x6570;&#x7EC4;[]</em></strong></p>
+<pre><code>// &#x7B80;&#x5355;&#x4F7F;&#x7528;10&#x4E2A;&#x6761;&#x4EF6;&#x5224;&#x65AD;+for&#x6765;&#x6A21;&#x62DF;&#x4E00;&#x4E0B;&#xFF0C;&#x4E25;&#x683C;&#x610F;&#x4E49;&#x4E0A;&#x662F;&#x4E0D;&#x51C6;&#x786E;&#x7684;
+let k = []
+function a (e) { k.push(e)}
+let len = 100000
+let list = Array(len).fill(a)
+let time1 = new Date()
+for(let i=len; i--;){
+let b = i%10
+if(b ===0){
+    a(0)
+}
+else if (b===1){
+    a(1)
+}
+else if (b===2){
+    a(2)
+}
+else if (b===3){
+    a(3)
+}
+else if (b===4){
+    a(4)
+}
+else if (b===5){
+    a(5)
+}
+else if (b===6){
+    a(6)
+}
+else if (b===7){
+    a(7)
+}
+else if (b===8){
+    a(8)
+}
+else if (b===9){
+    a(9)
+}}
+console.log(&apos;0&apos;, new Date() - time1)
+ time1 = new Date()
+for(let i=len; i--;){
+    switch(i%10) {
+    case 0 : a(0); break;
+    case 1 : a(1); break;
+    case 2 : a(2); break;
+    case 3 : a(3); break;
+    case 4 : a(4); break;
+    case 5 : a(5); break;
+    case 6 : a(6); break;
+    case 7 : a(7); break;
+    case 8 : a(8); break;
+    case 9 : a(9); break;
+}}
+console.log(&apos;1&apos;, new Date() - time1)
+ time1 = new Date()
+for(let i=len; i--;){
+    list[i%10](i%10)
+}
+console.log(&apos;2&apos;, new Date() - time1)
+    a(5)
+}
+else if (b===6){
+    a(6)
+}
+else if (b===7){
+    a(7)
+}
+else if (b===8){
+    a(8)
+}
+else if (b===9){
+    a(9)
+}}
+console.log(&apos;0&apos;, new Date() - time1)
+ time1 = new Date()
+for(let i=len; i--;){
+    switch(i%10) {
+    case 0 : a(0); break;
+    case 1 : a(1); break;
+    case 2 : a(2); break;
+    case 3 : a(3); break;
+    case 4 : a(4); break;
+    case 5 : a(5); break;
+    case 6 : a(6); break;
+    case 7 : a(7); break;
+    case 8 : a(8); break;
+    case 9 : a(9); break;
+}}
+console.log(&apos;1&apos;, new Date() - time1)
+ time1 = new Date()
+for(let i=len; i--;){
+    list[i%10](i%10)
+}
+console.log(&apos;2&apos;, new Date() - time1)
+</code></pre><p><strong><em>2.4 &#x4E8B;&#x4EF6;&#x59D4;&#x6258;</em></strong></p>
+<pre><code>&lt;ul&gt;
+   &lt;li&gt;&#x7B2C;1&#x4E2A;li&lt;/li&gt;
+   &lt;li&gt;&#x7B2C;2&#x4E2A;li&lt;/li&gt;
+   &lt;li&gt;&#x7B2C;3&#x4E2A;li&lt;/li&gt;
+   &lt;li&gt;&#x7B2C;4&#x4E2A;li&lt;/li&gt;
+   &lt;li&gt;&#x7B2C;5&#x4E2A;li&lt;/li&gt;
+   &lt;li&gt;&#x7B2C;6&#x4E2A;li&lt;/li&gt;
+   ...
+   &lt;li&gt;&#x7B2C;100&#x4E2A;li&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script&gt;
+//    li&#x7684;&#x4E8B;&#x4EF6;&#x59D4;&#x6258;&#x7ED9;&#x7236;&#x5143;&#x7D20;ul
+    $(&apos;ul&apos;).click(function(event){
+        console.log($(event.target).text());
+    });
+ &lt;/script&gt;
+</code></pre>
+                                
+                                </section>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../../" class="navigation navigation-prev " aria-label="Previous page: 前端性能浅析">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="webWorker.html" class="navigation navigation-next " aria-label="Next page: webWorker">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"javascript","level":"1.2","depth":1,"next":{"title":"webWorker","level":"1.3","depth":1,"path":"bookList/title/webWorker.md","ref":"bookList/title/webWorker.md","articles":[]},"previous":{"title":"前端性能浅析","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{"maxIndexSize":1000000},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"bookList/title/js.md","mtime":"2021-05-12T02:31:10.644Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-12T02:33:13.056Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+
